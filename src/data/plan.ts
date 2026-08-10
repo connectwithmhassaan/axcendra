@@ -18,7 +18,7 @@ function mk(
 ): Day {
   return {
     day,
-    weekday: wd[(day - 1) % 7],
+    weekday: wd[(day - 1) % 7] as string,
     title,
     tasks: tasks.map(([text, tag], i) => ({ id: `d${day}-t${i}`, text, tag })),
   };
