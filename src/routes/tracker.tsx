@@ -152,7 +152,7 @@ function Tracker() {
             <div className="mb-4 flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-primary" />
               <h2 className="font-display text-xl text-foreground">{current.title}</h2>
-              <span className="text-sm text-muted-foreground">— {current.subtitle}</span>
+              <span className="text-sm text-muted-foreground">{current.subtitle}</span>
             </div>
 
             <WeekProgress weeks={PLAN} week={week} done={done} />
