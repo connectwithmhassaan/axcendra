@@ -140,5 +140,46 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
   }
 }
+
+@utility bg-brand-gradient {
+  background-image: var(--gradient-brand);
+}
+
+@utility text-brand-gradient {
+  background-image: var(--gradient-brand);
+  background-clip: text;
+  color: transparent;
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility shadow-lift {
+  box-shadow: var(--shadow-lift);
+}
+
+@utility bg-aurora {
+  background:
+    radial-gradient(60rem 30rem at 15% -10%, oklch(0.72 0.2 300 / 0.18), transparent 60%),
+    radial-gradient(50rem 28rem at 90% 0%, oklch(0.62 0.24 292 / 0.16), transparent 60%),
+    radial-gradient(40rem 24rem at 50% 100%, oklch(0.82 0.16 150 / 0.12), transparent 60%);
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.06);
+  }
+}
+
+@utility animate-drift {
+  animation: drift 18s ease-in-out infinite;
+}
+
