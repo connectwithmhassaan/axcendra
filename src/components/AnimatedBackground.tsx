@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, type MotionStyle } from "motion/react";
 
 type Shape = {
   kind: "bubble" | "ring" | "triangle" | "blob";
@@ -29,8 +29,8 @@ const HUE: Record<Shape["hue"], string> = {
   mix: "var(--gradient-orb-mix)",
 };
 
-function shapeStyle(s: Shape): React.CSSProperties {
-  const base: React.CSSProperties = {
+function shapeStyle(s: Shape): MotionStyle {
+  const base: MotionStyle = {
     width: s.size,
     height: s.size,
     top: s.top,
