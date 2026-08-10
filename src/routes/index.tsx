@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RotateCcw, Sparkles, CheckCircle2 } from "lucide-react";
 import logo from "@/assets/axcendra-logo.png.asset.json";
 import { PLAN, TOTAL_DAYS, TOTAL_TASKS } from "@/data/plan";
@@ -235,9 +235,18 @@ function WeekProgress({ week, done }: { week: number; done: Record<string, boole
 }
 
 function SavedToast({ savedAt }: { savedAt: number }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!savedAt) return;
+    setVisible(true);
+    const t = setTimeout(() => setVisible(false), 1500);
+    return () => clearTimeout(t);
+  }, [savedAt]);
+
   return (
     <AnimatePresence>
-      {savedAt > 0 && (
+      {visible && (
         <motion.div
           key={savedAt}
           initial={{ opacity: 0, y: 12, scale: 0.95 }}
@@ -248,17 +257,9 @@ function SavedToast({ savedAt }: { savedAt: number }) {
         >
           <CheckCircle2 className="h-4 w-4 text-success" />
           Saved
-          <Fade delay={1400} />
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
 
-function Fade({ delay }: { delay: number }) {
-  const [gone, setGone] = useState(false);
-  if (typeof window !== "undefined" && !gone) {
-    setTimeout(() => setGone(true), delay);
-  }
-  return null;
-}
