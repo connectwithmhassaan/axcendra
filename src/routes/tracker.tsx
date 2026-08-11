@@ -31,6 +31,8 @@ export const Route = createFileRoute("/tracker")({
           "Track 30 days of SEO and real estate copywriting growth tasks with animated progress and autosave.",
       },
       { property: "og:type", content: "website" },
+      { name: "robots", content: "noindex" },
+
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
