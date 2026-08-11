@@ -89,7 +89,7 @@ export function AnimatedBackground() {
           style={{ top: s.top, left: s.left, width: s.size, height: s.size }}
           animate={
             reduced
-              ? undefined
+              ? { x: 0, y: 0 }
               : {
                   x: [0, s.drift[0], 0],
                   y: [0, s.drift[1], 0],
@@ -105,7 +105,7 @@ export function AnimatedBackground() {
           <motion.span
             className="absolute inset-0 block"
             style={shapeStyle({ ...s, top: "0", left: "0" })}
-            animate={reduced ? undefined : { scale: [1, 1.08, 1], rotate: s.kind === "triangle" ? [0, 18, 0] : 0 }}
+            animate={reduced ? { scale: 1 } : { scale: [1, 1.08, 1], rotate: s.kind === "triangle" ? [0, 18, 0] : 0 }}
             transition={{ duration: s.duration * 0.8, delay: s.delay, repeat: Infinity, ease: "easeInOut" }}
           />
           {s.label && (
