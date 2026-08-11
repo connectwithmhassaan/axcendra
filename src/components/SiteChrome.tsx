@@ -1,19 +1,30 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, Lock } from "lucide-react";
+import { useEffect, useState } from "react";
 import logo from "@/assets/axcendra-logo.png.asset.json";
 
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
   { to: "/about", label: "About" },
-  { to: "/tracker", label: "Tracker" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.ctrlKey && e.shiftKey && (e.key === "T" || e.key === "t")) {
+        e.preventDefault();
+        router.navigate({ to: "/unlock" });
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [router]);
 
   return (
     <header className="sticky top-0 z-40">
@@ -95,9 +106,18 @@ export function SiteFooter() {
         <p className="text-sm text-muted-foreground">
           SEO and real estate copywriting that turns listings into leads.
         </p>
-        <p className="text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} Axcendra. All rights reserved.
-        </p>
+        <div className="flex flex-col gap-1 sm:items-end">
+          <Link
+            to="/unlock"
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
+          >
+            <Lock className="h-3.5 w-3.5" />
+            Tracker
+          </Link>
+          <p className="text-xs text-muted-foreground">
+            &copy; {new Date().getFullYear()} Axcendra. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );
