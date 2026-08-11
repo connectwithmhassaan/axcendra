@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { RotateCcw, Sparkles, CheckCircle2 } from "lucide-react";
 import logo from "@/assets/axcendra-logo.png.asset.json";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { getPlan } from "@/lib/plan.functions";
+import { getTrackerPlan } from "@/lib/gate.functions";
 import type { Week } from "@/data/plan";
 import { useProgress } from "@/hooks/useProgress";
 import { CountUp } from "@/components/tracker/CountUp";
@@ -12,7 +12,7 @@ import { ProgressBar } from "@/components/tracker/ProgressBar";
 import { DayCard } from "@/components/tracker/DayCard";
 import { cn } from "@/lib/utils";
 
-const planQuery = queryOptions({ queryKey: ["plan"], queryFn: () => getPlan() });
+const planQuery = queryOptions({ queryKey: ["tracker-plan"], queryFn: () => getTrackerPlan() });
 
 export const Route = createFileRoute("/tracker")({
   loader: ({ context }) => context.queryClient.ensureQueryData(planQuery),
