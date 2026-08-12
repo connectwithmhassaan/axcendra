@@ -7,6 +7,7 @@ import logo from "@/assets/axcendra-logo.png.asset.json";
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
+  { to: "/case-studies", label: "Case studies" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
