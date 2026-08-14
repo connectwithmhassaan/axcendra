@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AnimatedBackground } from "../components/AnimatedBackground";
 import { SiteHeader, SiteFooter } from "../components/SiteChrome";
+import { getSiteContent } from "../lib/content.functions";
 
 function NotFoundComponent() {
   return (
