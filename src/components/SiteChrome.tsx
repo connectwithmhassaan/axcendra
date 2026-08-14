@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, Lock } from "lucide-react";
 import { useEffect, useState } from "react";
 import logo from "@/assets/axcendra-logo.png.asset.json";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -15,12 +16,13 @@ const NAV = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const content = useSiteContent();
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.ctrlKey && e.shiftKey && (e.key === "T" || e.key === "t")) {
         e.preventDefault();
-        router.navigate({ to: "/unlock" });
+        router.navigate({ to: "/unlock", search: {} });
       }
     }
     window.addEventListener("keydown", onKey);
