@@ -6,12 +6,10 @@ import { useState, type FormEvent } from "react";
 import { unlockTracker } from "@/lib/gate.functions";
 
 export const Route = createFileRoute("/unlock")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    next:
-      typeof search["next"] === "string" && (search["next"] as string).startsWith("/")
-        ? (search["next"] as string)
-        : "/tracker",
-  }),
+  validateSearch: (search: Record<string, unknown>): { next?: string } => {
+    const raw = search["next"];
+    return typeof raw === "string" && raw.startsWith("/") ? { next: raw } : {};
+  },
   head: () => ({
     meta: [
       { title: "Private Access | Axcendra" },
@@ -44,7 +42,7 @@ function UnlockPage() {
     const res = await unlock({ data: { password } });
     setBusy(false);
     if (res.ok) {
-      await router.navigate({ to: next });
+      await router.navigate({ to: next ?? "/tracker" });
     } else {
       setError(true);
     }
