@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { Mail, MessageCircle, Send, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -25,10 +26,11 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
+  const { contact } = useSiteContent();
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const mailto = `mailto:hello@axcendra.com?subject=${encodeURIComponent(
+  const mailto = `mailto:${contact.email}?subject=${encodeURIComponent(
     `Project enquiry from ${form.name || "a new client"}`,
   )}&body=${encodeURIComponent(`${form.message}\n\nReply to: ${form.email}`)}`;
 
@@ -40,12 +42,9 @@ function ContactPage() {
         transition={{ duration: 0.6 }}
       >
         <h1 className="font-display text-4xl tracking-tight text-foreground sm:text-5xl">
-          Let us talk about your <span className="text-brand-gradient">pipeline</span>
+          {contact.title} <span className="text-brand-gradient">{contact.titleHighlight}</span>
         </h1>
-        <p className="mt-4 max-w-lg text-muted-foreground">
-          Share a little about the brand and the goal. You get a reply with a scoped plan, timeline
-          and price within two working days.
-        </p>
+        <p className="mt-4 max-w-lg text-muted-foreground">{contact.subtitle}</p>
       </motion.header>
 
       <div className="mt-10 grid gap-5 lg:grid-cols-[1.4fr_1fr]">
@@ -101,7 +100,7 @@ function ContactPage() {
             className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-brand-gradient px-6 py-3 text-sm font-semibold text-primary-foreground shadow-soft"
           >
             {sent ? <CheckCircle2 className="h-4 w-4" /> : <Send className="h-4 w-4" />}
-            {sent ? "Opening your mail app" : "Send enquiry"}
+            {sent ? "Opening your mail app" : contact.submitLabel}
           </motion.button>
         </motion.form>
 
@@ -114,14 +113,12 @@ function ContactPage() {
           <div className="glass-card rounded-3xl p-6">
             <Mail className="h-5 w-5 text-primary" />
             <h2 className="mt-3 font-display text-lg text-foreground">Email</h2>
-            <p className="mt-1 text-sm text-muted-foreground">hello@axcendra.com</p>
+            <p className="mt-1 text-sm text-muted-foreground">{contact.email}</p>
           </div>
           <div className="glass-card rounded-3xl p-6">
             <MessageCircle className="h-5 w-5 text-success" />
-            <h2 className="mt-3 font-display text-lg text-foreground">Response time</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Replies land within two working days, usually sooner.
-            </p>
+            <h2 className="mt-3 font-display text-lg text-foreground">{contact.responseTitle}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">{contact.responseText}</p>
           </div>
         </motion.aside>
       </div>
