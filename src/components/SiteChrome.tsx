@@ -35,7 +35,9 @@ export function SiteHeader() {
         <div className="flex items-center justify-between rounded-2xl border border-border/70 bg-card/70 px-4 py-3 shadow-soft backdrop-blur-xl">
           <Link to="/" className="flex items-center gap-2.5">
             <img src={logo.url} alt="Axcendra logo" className="h-8 w-8" />
-            <span className="font-display text-lg tracking-tight text-foreground">Axcendra</span>
+            <span className="font-display text-lg tracking-tight text-foreground">
+              {content.brand.name}
+            </span>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
@@ -57,7 +59,7 @@ export function SiteHeader() {
               to="/contact"
               className="hidden rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5 md:inline-flex"
             >
-              Start a project
+              {content.brand.navCta}
             </Link>
             <button
               onClick={() => setOpen((o) => !o)}
@@ -99,24 +101,35 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
+  const content = useSiteContent();
+
   return (
     <footer className="mt-24 border-t border-border/60 bg-card/50 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center gap-2.5">
           <img src={logo.url} alt="" className="h-7 w-7" />
-          <span className="font-display text-base text-foreground">Axcendra</span>
+          <span className="font-display text-base text-foreground">{content.brand.name}</span>
         </div>
-        <p className="text-sm text-muted-foreground">
-          SEO and real estate copywriting that turns listings into leads.
-        </p>
+        <p className="text-sm text-muted-foreground">{content.brand.footerText}</p>
         <div className="flex flex-col gap-1 sm:items-end">
-          <Link
-            to="/unlock"
-            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
-          >
-            <Lock className="h-3.5 w-3.5" />
-            Tracker
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/unlock"
+              search={{}}
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
+            >
+              <Lock className="h-3.5 w-3.5" />
+              Tracker
+            </Link>
+            <Link
+              to="/unlock"
+              search={{ next: "/admin" }}
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
+            >
+              <Lock className="h-3.5 w-3.5" />
+              Admin
+            </Link>
+          </div>
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} Axcendra. All rights reserved.
           </p>
