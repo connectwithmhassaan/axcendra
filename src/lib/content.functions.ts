@@ -10,7 +10,7 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(async ()
 
 export const getAdminContent = createServerFn({ method: "GET" }).handler(async () => {
   const { isUnlocked } = await import("@/lib/session.server");
-  if (!(await isUnlocked())) throw redirect({ to: "/unlock" });
+  if (!(await isUnlocked())) throw redirect({ to: "/unlock", search: { next: "/admin" } });
   const { readSiteContent } = await import("@/lib/content.server");
   return readSiteContent();
 });
@@ -19,7 +19,7 @@ export const saveSiteContent = createServerFn({ method: "POST" })
   .inputValidator((data: { content: unknown }) => data)
   .handler(async ({ data }) => {
     const { isUnlocked } = await import("@/lib/session.server");
-    if (!(await isUnlocked())) throw redirect({ to: "/unlock" });
+    if (!(await isUnlocked())) throw redirect({ to: "/unlock", search: { next: "/admin" } });
 
     const merged = deepMerge(defaultContent, data.content) as SiteContent;
     const { writeSiteContent } = await import("@/lib/content.server");
@@ -29,7 +29,7 @@ export const saveSiteContent = createServerFn({ method: "POST" })
 
 export const resetSiteContent = createServerFn({ method: "POST" }).handler(async () => {
   const { isUnlocked } = await import("@/lib/session.server");
-  if (!(await isUnlocked())) throw redirect({ to: "/unlock" });
+  if (!(await isUnlocked())) throw redirect({ to: "/unlock", search: { next: "/admin" } });
   const { writeSiteContent } = await import("@/lib/content.server");
   await writeSiteContent(defaultContent);
   return { ok: true as const, content: defaultContent };
@@ -50,7 +50,7 @@ export const uploadSiteMedia = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const { isUnlocked } = await import("@/lib/session.server");
-    if (!(await isUnlocked())) throw redirect({ to: "/unlock" });
+    if (!(await isUnlocked())) throw redirect({ to: "/unlock", search: { next: "/admin" } });
     const { storeMedia } = await import("@/lib/content.server");
     return storeMedia(data);
   });
