@@ -24,6 +24,10 @@ export function SiteHeader() {
         e.preventDefault();
         router.navigate({ to: "/unlock", search: {} });
       }
+      if (e.ctrlKey && e.shiftKey && (e.key === "A" || e.key === "a")) {
+        e.preventDefault();
+        router.navigate({ to: "/unlock", search: { next: "/admin" } });
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
