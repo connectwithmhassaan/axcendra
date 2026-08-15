@@ -49,21 +49,21 @@ function shapeStyle(s: Shape): MotionStyle {
       ...base,
       borderRadius: "9999px",
       filter: s.layer === "back" ? "blur(46px)" : "blur(18px)",
-      opacity: s.layer === "back" ? 0.5 : 0.4,
+      opacity: s.layer === "back" ? 0.3 : 0.26,
     };
   if (s.kind === "blob")
     return {
       ...base,
       borderRadius: "58% 42% 63% 37% / 44% 56% 44% 56%",
       filter: "blur(52px)",
-      opacity: 0.45,
+      opacity: 0.28,
     };
   if (s.kind === "triangle")
     return {
       ...base,
       clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
       filter: "blur(12px)",
-      opacity: 0.3,
+      opacity: 0.22,
     };
   return {
     ...base,
@@ -72,7 +72,7 @@ function shapeStyle(s: Shape): MotionStyle {
     border: `${Math.round(s.size / 16)}px solid transparent`,
     background: `padding-box linear-gradient(transparent, transparent), border-box ${HUE[s.hue]}`,
     filter: "blur(1px)",
-    opacity: 0.32,
+    opacity: 0.24,
   };
 }
 
@@ -85,7 +85,7 @@ export function AnimatedBackground() {
       {SHAPES.map((s, i) => (
         <motion.span
           key={i}
-          className="absolute block will-change-transform"
+          className={`absolute block will-change-transform ${s.layer === "front" ? "hidden sm:block" : ""}`}
           style={{ top: s.top, left: s.left, width: s.size, height: s.size }}
           animate={
             reduced
