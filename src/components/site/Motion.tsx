@@ -56,29 +56,16 @@ export function StatCounter({ value, duration = 1000 }: { value: string; duratio
   return <span ref={ref}>{match ? `${n}${suffix}` : value}</span>;
 }
 
-/** Button that leans slightly toward the cursor and shifts its gradient. */
-export function MagneticLink({
-  children,
-  className,
-  onClick,
-  href,
-  as: As = "a",
-  ...rest
-}: {
-  children: ReactNode;
-  className?: string;
-  onClick?: () => void;
-  href?: string;
-  as?: React.ElementType;
-  [key: string]: unknown;
-}) {
+/** Wrapper that leans its child slightly toward the cursor. */
+export function Magnetic({ children, className }: { children: ReactNode; className?: string }) {
   const reduced = useReducedMotion();
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
   return (
     <motion.span
-      className="inline-block"
+      ref={ref}
+      className={`inline-block ${className ?? ""}`}
       onMouseMove={(e) => {
         if (reduced || !ref.current) return;
         const r = ref.current.getBoundingClientRect();
@@ -91,9 +78,7 @@ export function MagneticLink({
       animate={{ x: pos.x, y: pos.y }}
       transition={{ type: "spring", stiffness: 220, damping: 18 }}
     >
-      <As ref={ref} href={href} onClick={onClick} className={className} {...rest}>
-        {children}
-      </As>
+      {children}
     </motion.span>
   );
 }
