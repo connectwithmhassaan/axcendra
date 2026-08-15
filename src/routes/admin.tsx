@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { motion } from "motion/react";
 import { Loader2, Save, RotateCcw, ShieldCheck, ExternalLink } from "lucide-react";
@@ -21,7 +21,11 @@ export const Route = createFileRoute("/admin")({
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
-  loader: () => getAdminContent(),
+  loader: async () => {
+    const res = await getAdminContent();
+    if (!res.authorized) throw redirect({ to: "/unlock", search: { next: "/admin" } });
+    return res.content;
+  },
   component: AdminPage,
 });
 
