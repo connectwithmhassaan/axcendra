@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { redirect } from "@tanstack/react-router";
 import { PLAN, TOTAL_DAYS, TOTAL_TASKS } from "@/data/plan";
 
 export const unlockTracker = createServerFn({ method: "POST" })
@@ -33,6 +32,11 @@ export const getTrackerStatus = createServerFn({ method: "GET" }).handler(async 
 
 export const getTrackerPlan = createServerFn({ method: "GET" }).handler(async () => {
   const { isUnlocked } = await import("@/lib/session.server");
-  if (!(await isUnlocked())) throw redirect({ to: "/unlock" });
-  return { weeks: PLAN, totalDays: TOTAL_DAYS, totalTasks: TOTAL_TASKS };
+  if (!(await isUnlocked())) return { authorized: false as const };
+  return {
+    authorized: true as const,
+    weeks: PLAN,
+    totalDays: TOTAL_DAYS,
+    totalTasks: TOTAL_TASKS,
+  };
 });

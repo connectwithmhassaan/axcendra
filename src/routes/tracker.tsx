@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { RotateCcw, Sparkles, CheckCircle2 } from "lucide-react";
@@ -15,7 +15,14 @@ import { cn } from "@/lib/utils";
 const planQuery = queryOptions({ queryKey: ["tracker-plan"], queryFn: () => getTrackerPlan() });
 
 export const Route = createFileRoute("/tracker")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(planQuery),
+  loader: async ({ context }) => {
+    const res = await context.queryClient.ensureQueryData(planQuery);
+    if (!res.authorized) {
+      context.queryClient.removeQueries({ queryKey: ["tracker-plan"] });
+      throw redirect({ to: "/unlock" });
+    }
+    return null;
+  },
   head: () => ({
     meta: [
       { title: "30-Day Growth Tracker | Axcendra" },
@@ -41,9 +48,9 @@ export const Route = createFileRoute("/tracker")({
 
 function Tracker() {
   const { data } = useSuspenseQuery(planQuery);
-  const PLAN = data.weeks;
-  const TOTAL_DAYS = data.totalDays;
-  const TOTAL_TASKS = data.totalTasks;
+  const PLAN = data.authorized ? data.weeks : [];
+  const TOTAL_DAYS = data.authorized ? data.totalDays : 0;
+  const TOTAL_TASKS = data.authorized ? data.totalTasks : 1;
   const { done, toggle, reset, savedAt } = useProgress();
   const [week, setWeek] = useState(1);
   const [confirmReset, setConfirmReset] = useState(false);
