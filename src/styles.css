@@ -72,9 +72,15 @@
   --color-tag-outreach-foreground: var(--tag-outreach-fg);
   --color-tag-review: var(--tag-review);
   --color-tag-review-foreground: var(--tag-review-fg);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-fg);
+  --color-ink-muted: var(--ink-muted);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces", ui-serif, Georgia, serif;
 }
+
 
 :root {
   --radius: 0.875rem;
