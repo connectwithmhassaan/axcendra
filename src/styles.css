@@ -232,11 +232,50 @@
 }
 
 @utility glass-card {
-  background-color: color-mix(in oklab, var(--card) 72%, transparent);
+  background-color: color-mix(in oklab, var(--card) 82%, transparent);
   backdrop-filter: blur(16px);
   border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
   box-shadow: var(--shadow-soft);
 }
+
+@utility glass-nav {
+  background-color: color-mix(in oklab, var(--card) 78%, transparent);
+  backdrop-filter: blur(18px);
+  border: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility surface-ink {
+  background:
+    radial-gradient(38rem 20rem at 12% 0%, oklch(0.45 0.2 295 / 0.55), transparent 65%),
+    radial-gradient(30rem 18rem at 92% 100%, oklch(0.5 0.14 160 / 0.28), transparent 65%),
+    var(--ink);
+  color: var(--ink-fg);
+}
+
+@utility text-gold-accent {
+  color: var(--gold);
+}
+
+/* Lighter compositing on small screens */
+@media (max-width: 640px) {
+  .glass-card,
+  .glass-nav {
+    backdrop-filter: none;
+    background-color: color-mix(in oklab, var(--card) 94%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
 
 @keyframes drift {
   0%,
